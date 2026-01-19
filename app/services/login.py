@@ -1,5 +1,6 @@
 
 from app.db.db import conectar
+from app.segurity.pasword import verificar_password
 
 
 def validar_usuario():
@@ -7,21 +8,29 @@ def validar_usuario():
     cursor = conn.cursor()
 
     correo_ingresado = input("ingrese su usuario: ")
-    password_ingresada = input("inrgese su contraseña: ")
+    password_ingresada = input("ingrese su contraseña: ")
 
     cursor.execute(
-        "SELECT * FROM usuario WHERE correo = %s AND password = %s",
-        (correo_ingresado, password_ingresada)
+        "select * from usuario where correo = %s",
+        (correo_ingresado,)
     )
-    usuario = cursor.fetchone() # fetchone solo devuelve una fila
+    usuario = cursor.fetchone()
 
-    if usuario:
+    if not usuario:
+        print("usuario no existe")
+        return
+
+    password_hash_bd = usuario[5]
+
+    if verificar_password(password_ingresada, password_hash_bd):
         print("bienvenido al sistema")
     else:
-        print("usuario o contraseña incorrectos")
+        print("contraseña incorrecta")
+
 
 if __name__ == "__main__":
     validar_usuario()
+
 
 
     

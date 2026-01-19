@@ -7,10 +7,13 @@ create table usuario (
     Apellido varchar(50),
     Numero varchar(50) UNIQUE,
     correo varchar(50) UNIQUE ,
-    password VARCHAR(100) NOT NULL,
+    password VARCHAR(250),  -- debe ser varchar(250) por el bcrypt
 	activo BOOLEAN DEFAULT TRUE,
-	rol VARCHAR(20) DEFAULT 'admin'
+	rol VARCHAR(20) DEFAULT 'usuario'
     );
+
+SELECT correo, password FROM usuario;
+
 
 create table clientes (
     id int auto_increment primary key,
@@ -43,10 +46,14 @@ create table ventas (
     
 -- datos de prueba:
 
-INSERT INTO usuario (Nombre, Apellido, Numero, correo, password, rol)
+
+
+INSERT INTO usuario (Nombre, Apellido, Numero, correo, password, activo, rol)
 VALUES
-('Miguel', 'Rodriguez', '3001234567', 'miguel@peluqueria.com', 'hash123', 'admin'),
-('Carlos', 'Lopez', '3017654321', 'carlos@peluqueria.com', 'hash456', 'empleado');
+('Miguel', 'Rodriguez', '3001234567', 'miguel@peluqueria.com', 'hash123', TRUE, 'admin'),
+('Carlos', 'Lopez', '3017654321', 'carlos@peluqueria.com', 'hash456',TRUE, 'empleado' );
+
+select * from usuario where activo = TRUE;
 
 INSERT INTO clientes (Nombre, Apellido, Numero, correo)
 VALUES
